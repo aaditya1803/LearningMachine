@@ -11,8 +11,12 @@ import { useState } from 'react';
 function App() {
 
 return (
-  <Router>
-    <Navbar />
+  <div>
+  
+
+  	<Router>
+	  <Navbar/>
+	  <div className="container mt-3"> 
     <Routes>
       <Route path='/' exact element={<Home/>}/>
       <Route path='/courses'  element={<Courses/>}/>
@@ -30,8 +34,10 @@ return (
         />
       
     </Routes>
+	 </div>
   </Router>
   
+  </div>
 );
 }
 

@@ -3,10 +3,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from './Button'
 
-
-
-
 export default function BasicTextFields({ title, setPassword, setEmail, handleAction }) {
+    
     return (
         <div>
             <div className="heading-container">

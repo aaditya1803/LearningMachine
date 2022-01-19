@@ -33,6 +33,7 @@ function Login(props) {
                 <TextField
                     id="password"
                     label="Enter the Password"
+                    type="password"
                     variant="outlined"
                     onChange={(e) => props.setPassword(e.target.value)}
                 />

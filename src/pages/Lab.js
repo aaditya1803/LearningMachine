@@ -1,8 +1,8 @@
-import {useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 
-function Courses() {
+const Lab = () => {
     let navigate = useNavigate();
     useEffect(() => {
         let authToken = sessionStorage.getItem('Auth Token')
@@ -15,14 +15,9 @@ function Courses() {
     }, [])
     return (
         <div>
-            <div className="heading-container">
-                <h3>
-                    Courses
-                </h3>
-            </div>
-
+            <h3>Lab</h3>
         </div>
     )
 }
 
-export default Courses
+export default Lab

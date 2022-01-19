@@ -4,6 +4,7 @@ import Navbar from './components/navbar/navbar';
 import Home from './pages/Home'
 import Courses from './pages/Courses'
 import Login from './pages/Login'
+import Lab from './pages/Lab'
 import React from 'react';
 import { useState } from 'react';
 import { app } from './firebase-config';
@@ -23,8 +24,12 @@ function App() {
 					navigate('/courses')
 					sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
 			  }).catch((error) => {
+				  console.log(error.code)
 				if(error.code === 'auth/email-already-in-use') {
 					toast.error('Email already in use')
+				}
+				if(error.code === 'auth/weak-password') {
+					toast.error('Enter a stronger password')
 				}
 			})
 		 }
@@ -71,6 +76,7 @@ return (
 				handleAction = { () => handleAction('Register')}
           />}
         />
+		  <Route path='/lab' element={<Lab />} />
       
     </Routes>
 	 </div>

@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import CourseCard from '../components/common/CourseCard'
 
 function Courses() {
     let navigate = useNavigate();
@@ -19,6 +20,7 @@ function Courses() {
                 <h3>
                     Courses
                 </h3>
+                <CourseCard />
             </div>
 
         </div>

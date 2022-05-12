@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import ReactVNC from '../components/lab/Reactvnc'
 
 const Lab = () => {
     let navigate = useNavigate();
@@ -15,7 +16,7 @@ const Lab = () => {
     }, [])
     return (
         <div>
-            <h3>Lab</h3>
+            <ReactVNC />
         </div>
     )
 }

@@ -37,6 +37,35 @@ app.get('/insertCourse', async (req, res) => {
     res.send('Inserted');
 })
 
+//test endpoint to list all running docker containers
+app.get('/listcontainers', async (req, res) => {
+    var Docker = require('dockerode');
+    var docker = new Docker({socketPath: '/var/run/docker.sock'});
+    docker.listContainers(function (err, containers) {
+        console.log(containers + err);
+        res.send(containers)
+    })
+})
+
+app.get('/getcontainers', async (req, res) => {
+    var Docker = require('dockerode');
+    var docker = new Docker({socketPath: '/var/run/docker.sock'});
+    docker.getContainer('1ee999dce4a5').inspect(function (err, data) {
+        console.log(data + err);
+        res.send(data)
+    })
+})
+
+app.get('/stopallcontainers', async (req, res) => {
+    var Docker = require('dockerode');
+    var docker = new Docker({socketPath: '/var/run/docker.sock'});
+    docker.listContainers(function(err,containers) {
+        containers.forEach(function(containerInfo) {
+            docker.getContainer(containerInfo.Id).stop();
+        })
+    })
+})
+
 app.get('/listCourse', async (req, res) => {
     CourseModel.find({}, (err,result) => {
         if(err) {

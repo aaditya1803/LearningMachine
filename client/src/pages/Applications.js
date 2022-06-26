@@ -1,9 +1,9 @@
 import {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
-import CourseCard from '../components/common/CourseCard'
+import ApplicationsCard from '../components/common/ApplicationsCard'
 
-function Courses() {
+function Applications() {
     let navigate = useNavigate();
     useEffect(() => {
         let authToken = sessionStorage.getItem('Auth Token')
@@ -18,13 +18,13 @@ function Courses() {
         <div>
             <div className="heading-container">
                 <h3>
-                    Courses
+                    Applications
                 </h3>
-                <CourseCard />
+                <ApplicationsCard />
             </div>
 
         </div>
     )
 }
 
-export default Courses
+export default Applications

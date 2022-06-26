@@ -25,3 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #/src/firebase-config.js
+
+/server/labdocker/android-studio/android-studio/*

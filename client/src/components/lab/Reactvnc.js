@@ -20,10 +20,12 @@ function Reactvnc() {
   return (
     <div>
            <VncScreen
-              url='ws://127.0.0.1:6080/vnc.html'
+              url='ws://192.168.1.4:6080/vnc.html'
               scaleViewport
               background="#000000"
-              
+              scaleViewport='true'
+              viewOnly='true'
+              //resizeSession= 'true'
               style={{
                width: '75vw',
                height: '75vh', 

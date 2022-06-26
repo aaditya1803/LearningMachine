@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './components/navbar/navbar';
 import Home from './pages/Home'
-import Courses from './pages/Courses'
+import Applications from './pages/Applications'
 import Login from './pages/Login'
 import Lab from './pages/Lab'
 import React from 'react';
@@ -21,8 +21,10 @@ function App() {
 		 const authentication = getAuth();
 		 if(title==='Register') {
 			  createUserWithEmailAndPassword(authentication, email, password).then((response) => {
-					navigate('/courses')
+					//navigate('/applications')
+					window.location.href = "/applications"
 					sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+					toast.success('Logged in successfully!')
 			  }).catch((error) => {
 				  console.log(error.code)
 				if(error.code === 'auth/email-already-in-use') {
@@ -35,8 +37,10 @@ function App() {
 		 }
 		 if(title==='Login') {
 			 signInWithEmailAndPassword(authentication, email, password).then((response) => {
-				 	navigate('/courses')
+				 	//navigate('/applications')
+					window.location.href = "/applications"
 				 	sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+					toast.success('Logged in successfully!')
 			 }).catch((error) => {
 				 if(error.code === 'auth/wrong-password') {
 					 toast.error('Please check the password')
@@ -56,9 +60,8 @@ return (
 	  <div className="container mt-3"> 
     <Routes>
       <Route path='/' exact element={<Home/>}/>
-      <Route path='/courses'  element={<Courses/>}/>
-      
-		<Route path='/login'  
+      <Route path='/applications'  element={<Applications/>}/>
+      <Route path='/login'  
         element={
           <Login 
             title='Login'

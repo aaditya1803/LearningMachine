@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function navbar() {
     const handleLogout = () => {
         sessionStorage.removeItem('Auth Token')
+        window.location.reload(false)
     }
     return (
     <div>
@@ -17,7 +18,7 @@ function navbar() {
         </div>
         <div className="navbar-nav mr-auto">
         <li > 
-            <Link to='/courses' className="nav-link">Courses</Link>
+            <Link to='/applications' className="nav-link">Applications</Link>
         </li>
         {(sessionStorage.getItem('Auth Token')) && (
             <>

@@ -1,6 +1,9 @@
 const router = require('express').Router();
 let Lab = require('../models/Labs.model');
 
+var Docker = require('dockerode');
+var docker = new Docker({socketPath: '/var/run/docker.sock'});
+
 router.route('/').get((req,res) => {
     Lab.find()
         .then(lab => res.json(lab))
@@ -21,5 +24,12 @@ router.route('/add').post((req,res) => {
         .then(() => res.json('Lab added'))
         .catch(err => res.status(400).json('Error' + err));
 });
+
+router.route('/listcontainers').get((req,res) => {
+    docker.listContainers(function (err, containers) {
+        console.log(containers + err);
+        res.send(containers)
+    })
+})
 
 module.exports = router;

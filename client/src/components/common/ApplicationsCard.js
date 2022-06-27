@@ -6,23 +6,76 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
+import { getAuth } from "firebase/auth";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import androidstudiologo from '/home/aadi/project/LearningMachine/client/src/static/images/CourseCards/android-studio.png'
+import ubuntulogo from '/home/aadi/project/LearningMachine/client/src/static/images/CourseCards/ubuntu.png'
+import vscodelogo from '/home/aadi/project/LearningMachine/client/src/static/images/CourseCards/vscode.jpeg'
+import { useCookies } from 'react-cookie'
 
 export default function MediaCard() {
 
+  let navigate = useNavigate();
+  const [cookies, setCookies] = useCookies('labuid')    
+
+  function getuid() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      console.log(user.uid);
+      return user.uid
+    }
+    else {
+      auth = getAuth();
+      user = auth.currentUser;
+      if (user) {
+        console.log(user.uid);
+        return user.uid
+    }
+  }
+}
+
   function launchalab(thelab) {
 
-    const baseurl = "localhost:5000/labs"
+    const baseurl = "localhost:5000/labs/launchacontainer"
+
 
     if(thelab==='ubuntu') {
       console.log(thelab);
-
+      //insert axios request here
     }
+
     if(thelab==='android-studio') {
       console.log(thelab);
+      //insert axios request here (request also contains uid)
     }
-    if(thelab==='vscode') {
+
+    if(thelab==='vscode' || thelab==='ubuntu') {
       console.log(thelab);
+      
+      //get current uid
+      const uid = getuid();
+      //console.log(uid)
+
+      //insert axios request here
+      axios.post(`http://192.168.1.4:5000/labs/launchacontainer/`, {
+        uid: uid,
+        thelab: thelab
+      }).then((response) => {
+        console.log('lab create axios post: '+response)
+      })
+      //set cookie with labuid
+      const labuid = uid + '_' + thelab
+      setCookies('labuid', labuid, {path: '/'} )
+
+      toast.error('Please wait, your lab instance will be ready in 15-20 seconds');
+      setTimeout(function(){
+        navigate('/lab')
+    },20000)
+
     }
   }
 
@@ -35,7 +88,7 @@ export default function MediaCard() {
       <CardMedia
         component="img"
         height="140"
-        image="src/static/images/CourseCards/linuxfundamentals.png"
+        image={ubuntulogo}
         alt="Ubuntu Machine"
       />
       <CardContent>
@@ -48,7 +101,6 @@ export default function MediaCard() {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={() => launchalab('ubuntu')}>Launch</Button>
-        <Button size="small">Learn More</Button>
       </CardActions>
     </Card>
     </Grid>
@@ -58,7 +110,7 @@ export default function MediaCard() {
       <CardMedia
         component="img"
         height="140"
-        image="src/static/images/CourseCards/linuxfundamentals.png"
+        image={vscodelogo}
         alt="VScode"
       />
       <CardContent>
@@ -71,7 +123,6 @@ export default function MediaCard() {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={() => launchalab('vscode')}>Launch</Button>
-        <Button size="small">Learn More</Button>
       </CardActions>
     </Card>
     </Grid>
@@ -81,7 +132,7 @@ export default function MediaCard() {
       <CardMedia
         component="img"
         height="140"
-        image="src/static/images/CourseCards/linuxfundamentals.png"
+        image={androidstudiologo}
         alt="Android Studio"
       />
       <CardContent>
@@ -94,7 +145,6 @@ export default function MediaCard() {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={() => launchalab('android-studio')}>Launch</Button>
-        <Button size="small">Learn More</Button>
       </CardActions>
     </Card>
     </Grid>

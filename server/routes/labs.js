@@ -32,4 +32,101 @@ router.route('/listcontainers').get((req,res) => {
     })
 })
 
+router.route('/createtestlab').get((req,res) => {
+    
+    console.log('starting: ' + req.body.thelab)
+    docker.createContainer({
+        Image: 'hello-world'
+        
+    }).then(function(container) {
+        return container.start();
+    })
+})
+
+router.route('/stopacontainer').post((req,res) => {
+    console.log('stopping: ' + req.body.thelabid) 
+    if(docker.getContainer(req.body.thelabid)){
+        docker.getContainer(req.body.thelabid).stop();
+            docker.getContainer(req.body.thelabid).remove();
+    }
+})
+
+
+router.route('/launchacontainer').post((req,res) => {
+    
+    console.log(req.body.uid + req.body.thelab)
+    if(req.body.thelab==='vscode' && req.body.uid) {
+        const containername = req.body.uid + '_' + req.body.thelab
+        docker.createContainer({
+            name: containername,
+            Image: 'beneventsur/xubuntu:vscode-1.44.2',
+            AttachStdin: true,
+            //ExposedPorts: 
+            Hostconfig: {
+                PortBindings: {
+                    '6080/tcp': [{
+                        HostPort: '6080',
+                    }],
+                    '5901/tcp': [{
+                        HostPort: '5901',
+                    }]
+                }
+            }
+        
+
+        }).then(function(container) {
+            return container.start();
+        })
+    }
+
+    if(req.body.thelab==='ubuntu' && req.body.uid) {
+        const containername = req.body.uid + '_' + req.body.thelab
+        docker.createContainer({
+            name: containername,
+            Image: 'beneventsur/xubuntu:18.04-novnc',
+            AttachStdin: true,
+            //ExposedPorts: 
+            Hostconfig: {
+                PortBindings: {
+                    '6080/tcp': [{
+                        HostPort: '6080',
+                    }],
+                    '5901/tcp': [{
+                        HostPort: '5901',
+                    }]
+                }
+            }
+        
+
+        }).then(function(container) {
+            return container.start();
+        })
+    }
+
+    if(req.body.thelab==='android-studio' && req.body.uid) {
+        const containername = req.body.uid + '_' + req.body.thelab
+        docker.createContainer({
+            name: containername,
+            Image: 'xubuntu-android-studio',
+            AttachStdin: true,
+            //ExposedPorts: 
+            Hostconfig: {
+                PortBindings: {
+                    '6080/tcp': [{
+                        HostPort: '6080',
+                    }],
+                    '5901/tcp': [{
+                        HostPort: '5901',
+                    }]
+                }
+            }
+        
+
+        }).then(function(container) {
+            return container.start();
+        })
+    }
+    
+})
+
 module.exports = router;

@@ -24,7 +24,7 @@ function Reactvnc() {
               scaleViewport
               background="#000000"
               scaleViewport='true'
-              viewOnly='true'
+              //viewOnly='true'
               //resizeSession= 'true'
               style={{
                width: '75vw',

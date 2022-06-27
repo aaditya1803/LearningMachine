@@ -15,6 +15,14 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+app.options('*', cors());
+
+
 mongoose.connect('mongodb://localhost:27017/learningmachine?readPreference=primary&appname=MongoDB%20Compass&ssl=false', {useNewUrlParser: true} );
 const connection = mongoose.connection
 connection.once('open', () => {

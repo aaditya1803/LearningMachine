@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import ReactVNC from '../components/lab/Reactvnc'
 import Button from '@mui/material/Button';
+import axios from 'axios'
+import { useCookies } from 'react-cookie'
 
 const Lab = () => {
     let navigate = useNavigate();
+
+    const [cookies, setCookies, removeCookies] = useCookies('labuid')    
+
     useEffect(() => {
         let authToken = sessionStorage.getItem('Auth Token')
         if(!authToken) {
@@ -13,6 +18,10 @@ const Lab = () => {
             setTimeout(function(){
                 navigate('/login')
             },1000)
+        }
+        if(!cookies.labuid) {
+            toast.error('Please launch a lab session to view this page')
+            navigate('/applications')
         }
     }, [])
 
@@ -22,6 +31,15 @@ const Lab = () => {
 
     function stoplab() {
         //send axios request to stop the session
+        if(cookies.labuid){ 
+            axios.post(`http://192.168.1.4:5000/labs/stopacontainer`, {
+                thelabid: cookies.labuid
+            })
+            console.log('stopped container: ' + cookies.name)
+            toast.success('Successfully stopped the session!')
+            removeCookies('labuid')
+            navigate('/applications')
+        }
     }
 
     return (

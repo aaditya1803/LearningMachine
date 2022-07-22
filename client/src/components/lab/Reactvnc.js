@@ -13,14 +13,15 @@ interface RFBOptions {
 //  wsProtocols: string;
 }
 
-function Reactvnc() {
+function Reactvnc(props) {
 
   //const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(RFBOptions);
+  const url = 'ws://10.0.3.12:' + props.portassigned + '/vnc.html'
 
   return (
     <div>
            <VncScreen
-              url='ws://192.168.1.4:6080/vnc.html'
+              url={url}
               scaleViewport
               background="#000000"
               scaleViewport='true'

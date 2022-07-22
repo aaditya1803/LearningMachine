@@ -26,25 +26,27 @@ const Lab = () => {
     }, [])
 
     function handleAction() {
-        window.open('http://192.168.1.4:6080/vnc.html')
+        const url = 'http://10.0.3.12:' + cookies.assignedport + '/vnc.html'
+        window.open(url)
     }
 
     function stoplab() {
         //send axios request to stop the session
         if(cookies.labuid){ 
-            axios.post(`http://192.168.1.4:5000/labs/stopacontainer`, {
+            axios.post(`http://10.0.3.12:5000/labs/stopacontainer`, {
                 thelabid: cookies.labuid
             })
             console.log('stopped container: ' + cookies.name)
             toast.success('Successfully stopped the session!')
             removeCookies('labuid')
+            removeCookies('assignedport')
             navigate('/applications')
         }
     }
 
     return (
         <div>
-            <ReactVNC />
+            <ReactVNC portassigned={cookies.assignedport} />
             <Button variant="contained" onClick={handleAction}>Open session in a new tab</Button>
             <Button variant="contained" color="error" onClick={stoplab}>Stop the session</Button>
         </div>

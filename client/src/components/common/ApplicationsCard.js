@@ -40,18 +40,9 @@ export default function MediaCard() {
 
   function launchalab(thelab) {
 
-    const baseurl = "localhost:5000/labs/launchacontainer"
+    const baseurl = "10.0.3.12:5000/labs/launchacontainer"
 
 
-    if(thelab==='ubuntu') {
-      console.log(thelab);
-      //insert axios request here
-    }
-
-    if(thelab==='android-studio') {
-      console.log(thelab);
-      //insert axios request here (request also contains uid)
-    }
 
     if(thelab==='vscode' || thelab==='ubuntu') {
       console.log(thelab);
@@ -61,20 +52,24 @@ export default function MediaCard() {
       //console.log(uid)
 
       //insert axios request here
-      axios.post(`http://192.168.1.4:5000/labs/launchacontainer/`, {
+      axios.post(`http://10.0.3.12:5000/labs/launchacontainer/`, {
         uid: uid,
         thelab: thelab
       }).then((response) => {
         console.log('lab create axios post: '+response)
+
+        //getting back container's port number
+        const assignedport = response.data.containername
+        setCookies('assignedport', assignedport, {path: '/'})
       })
       //set cookie with labuid
       const labuid = uid + '_' + thelab
       setCookies('labuid', labuid, {path: '/'} )
 
-      toast.error('Please wait, your lab instance will be ready in 15-20 seconds');
+      toast.error('Please wait, your lab instance will be ready in 10 seconds', {autoClose: 10000,});
       setTimeout(function(){
         navigate('/lab')
-    },20000)
+    },10000)
 
     }
   }
@@ -127,27 +122,7 @@ export default function MediaCard() {
     </Card>
     </Grid>
 
-    <Grid item xs={4}>
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image={androidstudiologo}
-        alt="Android Studio"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Android Studio
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-        Access a preconfigured Android Studio ready to use on demand! 
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => launchalab('android-studio')}>Launch</Button>
-      </CardActions>
-    </Card>
-    </Grid>
+    
 
     </Grid>
     </>

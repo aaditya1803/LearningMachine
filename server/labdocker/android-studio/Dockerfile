@@ -58,4 +58,6 @@ RUN mkdir /var/run/sshd && \
     chmod 755 /root/.vnc/xstartup && \
     cp /etc/xdg/xfce4/panel/default.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 # Defined the entrypoint script
+EXPOSE 6080
+EXPOSE 5901
 ENTRYPOINT /opt/run.sh
